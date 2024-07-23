@@ -1,0 +1,90 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StudentGrades {
+
+    static class Grade {   
+        String subject;
+        double score;
+
+        Grade(String subject, double score) { 
+            this.subject = subject;
+            this.score = score;
+        }
+    }
+
+    private ArrayList<Grade> grades;
+
+    public StudentGrades() {
+        grades = new ArrayList<>();
+    }
+    //Adds a new Grade object to the grades list with the provided subject and score.
+    public void addGrade(String subject, double score) {
+        grades.add(new Grade(subject, score));
+    }
+    //Calculates the average of all grades in the grades list.
+    //If there are no grades, returns 0.
+    //Sums up all scores and divides by the number of grades to get the average.
+    public double calculateAverage() { 
+        if (grades.isEmpty()) {
+            return 0;
+        }
+
+        double total = 0;
+        for (Grade grade : grades) {
+            total += grade.score;
+        }
+
+        return total / grades.size();
+    }
+    //Determines the letter grade based on the average score.
+    //Uses a series of if-else statements to return 'A', 'B', 'C', 'D', or 'F' based on the average.
+    public char calculateLetterGrade(double average) {
+        if (average >= 90) {
+            return 'A';
+        } else if (average >= 80) {
+            return 'B';
+        } else if (average >= 70) {
+            return 'C';
+        } else if (average >= 60) {
+            return 'D';
+        } else {
+            return 'F';
+        }
+    }
+    //Prints out all grades stored in the grades list.
+    //Calculates and prints the average grade.
+    //Calculates and prints the corresponding letter grade for the average.
+    public void displayGrades() {
+        System.out.println("Grades:");
+        for (Grade grade : grades) {
+            System.out.println(grade.subject + ": " + grade.score);
+        }
+
+        double average = calculateAverage();
+        System.out.println("Average Grade: " + average);
+        System.out.println("Letter Grade: " + calculateLetterGrade(average));
+    }
+
+    public static void main(String[] args) {  //main method
+        Scanner scanner = new Scanner(System.in);  //Creates a Scanner object to read input from the user.
+        StudentGrades studentGrades = new StudentGrades();
+
+        while (true) {
+            System.out.println("Enter subject (or 'exit' to finish): ");
+            String subject = scanner.nextLine();
+            if (subject.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            System.out.println("Enter marks for " + subject + ": ");
+            double grade = scanner.nextDouble();
+            scanner.nextLine();  // Consume the newline
+
+            studentGrades.addGrade(subject, grade);
+        }
+
+        studentGrades.displayGrades();
+        scanner.close();
+    }
+}
